@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smoking Harms - Random Fact Generator</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        body {
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 800px;
+            width: 100%;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+        
+        header {
+            background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+            color: white;
+            padding: 30px 20px;
+            text-align: center;
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+        
+        .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+        
+        .content {
+            padding: 30px;
+        }
+        
+        .fact-container {
+            background-color: #fef5f5;
+            border-radius: 10px;
+            padding: 25px;
+            margin: 25px 0;
+            border-left: 5px solid #e74c3c;
+            min-height: 180px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            font-size: 1.4rem;
+            transition: all 0.3s ease;
+        }
+        
+        .button-container {
+            text-align: center;
+            margin: 20px 0;
+        }
+        
+        button {
+            background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            font-size: 1.1rem;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(199, 61, 47, 0.3);
+        }
+        
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(199, 61, 47, 0.4);
+        }
+        
+        button:active {
+            transform: translateY(0);
+        }
+        
+        .statistics {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 30px;
+            text-align: center;
+        }
+        
+        .stat {
+            padding: 15px;
+        }
+        
+        .stat-number {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #e74c3c;
+        }
+        
+        .stat-label {
+            font-size: 0.9rem;
+            color: #777;
+        }
+        
+        footer {
+            text-align: center;
+            padding: 20px;
+            background: #f8f9fa;
+            color: #666;
+            font-size: 0.9rem;
+        }
+        
+        @media (max-width: 600px) {
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .fact-container {
+                padding: 15px;
+                font-size: 1.2rem;
+                min-height: 150px;
+            }
+            
+            button {
+                padding: 12px 30px;
+            }
+            
+            .statistics {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🚭 Smoking Harms</h1>
+            <p class="subtitle">Click the button to discover why you should quit smoking</p>
+        </header>
+        
+        <div class="content">
+            <div class="fact-container" id="fact-display">
+                Ready to learn about the dangers of smoking?
+            </div>
+            
+            <div class="button-container">
+                <button onclick="generateRandomFact()">Tell Me a Harmful Fact</button>
+            </div>
+            
+            <div class="statistics">
+                <div class="stat">
+                    <div class="stat-number" id="total-facts">0</div>
+                    <div class="stat-label">Total Facts</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-number" id="shown-count">0</div>
+                    <div class="stat-label">Facts Displayed</div>
+                </div>
+            </div>
+        </div>
+        
+        <footer>
+            <p>For your health, stay away from tobacco | Data for informational purposes only</p>
+        </footer>
+    </div>
+
+    <script>
+        // Smoking harm facts data
+        const smokingFacts = [
+            "Smoking increases lung cancer risk by 15-30 times",
+            "Smokers lose an average of 10 years of life expectancy",
+            "Smoking causes chronic obstructive pulmonary disease (COPD)",
+            "Smoking increases heart attack risk by 2-4 times",
+            "Smoking causes oral and throat cancers",
+            "Smoking increases stroke risk by 2-4 times",
+            "Smoking causes yellow teeth and oral health problems",
+            "Smoking accelerates skin aging and causes wrinkles",
+            "Smoking reduces physical endurance and athletic performance",
+            "Smoking diminishes sense of taste and smell",
+            "Smoking causes reproductive issues and infertility",
+            "Smoking increases risk of type 2 diabetes",
+            "Smoking leads to osteoporosis (bone weakening)",
+            "Smoking increases risk of cataracts",
+            "Smoking causes gum disease and tooth loss",
+            "Smoking slows down wound healing",
+            "Smoking increases risk of rheumatoid arthritis",
+            "Smokers are more likely to develop peptic ulcers",
+            "Smoking negatively affects sleep quality",
+            "Smoking increases bad cholesterol (LDL) levels",
+            "Smoking is the leading cause of preventable death",
+            "Smoking worsens asthma symptoms",
+            "Smoking increases tuberculosis risk and mortality",
+            "Smoking causes aortic aneurysm",
+            "Smoking increases peripheral artery disease risk",
+            "Smoking affects vision and increases macular degeneration risk",
+            "Smoking causes hoarse voice and laryngitis",
+            "Smoking weakens the immune system",
+            "Smoking increases surgical complications risk",
+            "Smoking stains fingers and teeth",
+            "Smoking leaves odor in hair and clothes",
+            "Smoking increases household fire risk",
+            "Smoking costs thousands of dollars annually",
+            "Secondhand smoke harms family health, especially children",
+            "Smoking increases depression and anxiety risk"
+        ];
+        
+        let shownCount = 0;
+        const totalFacts = smokingFacts.length;
+        
+        // Update statistics
+        function updateStats() {
+            document.getElementById('total-facts').textContent = totalFacts;
+            document.getElementById('shown-count').textContent = shownCount;
+        }
+        
+        // Generate random smoking fact
+        function generateRandomFact() {
+            const randomIndex = Math.floor(Math.random() * smokingFacts.length);
+            const randomFact = smokingFacts[randomIndex];
+            
+            const factDisplay = document.getElementById('fact-display');
+            
+            // Add fade effect
+            factDisplay.style.opacity = 0;
+            
+            setTimeout(() => {
+                factDisplay.textContent = randomFact;
+                factDisplay.style.opacity = 1;
+                
+                // Update counter
+                shownCount++;
+                updateStats();
+                
+                // Save to local storage
+                localStorage.setItem('shownCount', shownCount);
+            }, 300);
+        }
+        
+        // Initialize
+        function init() {
+            // Get shown count from local storage
+            const savedCount = localStorage.getItem('shownCount');
+            if (savedCount) {
+                shownCount = parseInt(savedCount);
+            }
+            
+            updateStats();
+        }
+        
+        // Initialize on page load
+        window.onload = init;
+    </script>
+</body>
+</html>
